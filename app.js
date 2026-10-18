@@ -7,7 +7,7 @@
  * 3. Trang web phải chạy HTTPS để camera hoạt động trên điện thoại.
  */
 
-const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzbyNgFF7KvRQ1bQT0lx0Ucpr_TgwJ503Jd-upxm_kb0DTMa3cniGCdJc5AlbvNhXgY/exec";
 
 let scanner = null;
 let scanning = false;
