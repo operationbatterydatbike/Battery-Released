@@ -4,48 +4,129 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#111827">
-    <title>QR Scanner</title>
+
+    <title>Battery Release - QR Scanner</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <main class="app">
-        <header class="header">
+
+<main class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div>
+            <div class="eyebrow">BATTERY RELEASE</div>
+            <h1>Quét mã QR</h1>
+        </div>
+
+        <div id="statusDot" class="status-dot"></div>
+    </header>
+
+
+    <!-- QR SCANNER -->
+    <section class="scanner-card">
+
+        <div id="reader" class="reader">
+
+            <div class="scan-frame">
+                <span></span>
+            </div>
+
+            <div id="readerMessage" class="reader-message">
+                Nhấn “Bắt đầu quét” để mở camera
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                id="startBtn"
+                class="btn btn-primary">
+                Bắt đầu quét
+            </button>
+
+            <button
+                id="stopBtn"
+                class="btn btn-secondary"
+                disabled>
+                Dừng
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- LAST RESULT -->
+    <section class="result-card">
+
+        <div class="result-label">
+            MÃ QR CUỐI CÙNG
+        </div>
+
+        <div id="qrResult" class="qr-result">
+            Chưa có dữ liệu
+        </div>
+
+        <div id="saveStatus" class="save-status">
+            Sẵn sàng
+        </div>
+
+    </section>
+
+
+    <!-- LOG HEADER -->
+    <section class="log-section">
+
+        <div class="log-header">
+
             <div>
-                <div class="eyebrow">MOBILE WEB</div>
-                <h1>Quét mã QR</h1>
-            </div>
-            <div id="statusDot" class="status-dot"></div>
-        </header>
-
-        <section class="scanner-card">
-            <div id="reader" class="reader">
-                <div class="scan-frame">
-                    <span></span>
+                <div class="result-label">
+                    LỊCH SỬ QUÉT
                 </div>
-                <div id="readerMessage" class="reader-message">
-                    Nhấn “Bắt đầu quét” để mở camera
+
+                <div id="logCount" class="log-count">
+                    0 bản ghi
                 </div>
             </div>
 
-            <div class="actions">
-                <button id="startBtn" class="btn btn-primary">Bắt đầu quét</button>
-                <button id="stopBtn" class="btn btn-secondary" disabled>Dừng</button>
+            <button
+                id="refreshBtn"
+                class="refresh-btn">
+                ↻ Làm mới
+            </button>
+
+        </div>
+
+
+        <!-- LOG LIST -->
+        <div id="logList" class="log-list">
+
+            <div class="empty-log">
+                Đang tải dữ liệu...
             </div>
-        </section>
 
-        <section class="result-card">
-            <div class="result-label">MÃ QR CUỐI CÙNG</div>
-            <div id="qrResult" class="qr-result">Chưa có dữ liệu</div>
-            <div id="saveStatus" class="save-status">Sẵn sàng</div>
-        </section>
+        </div>
 
-        <p class="note">
-            Dữ liệu sau khi quét sẽ được gửi lên Google Sheets gồm <strong>thời gian</strong> và <strong>mã QR</strong>.
-        </p>
-    </main>
+    </section>
 
-    <!-- Thư viện quét QR chạy trực tiếp trên trình duyệt -->
-    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-    <script src="app.js"></script>
+
+    <p class="note">
+        Dữ liệu được lưu trên Google Sheets thông qua Google Apps Script.
+    </p>
+
+</main>
+
+
+<!-- QR SCANNER LIBRARY -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<script src="app.js"></script>
+
 </body>
 </html>
+```

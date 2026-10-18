@@ -180,3 +180,164 @@ async function loadLogs() {
 }
 
 document.addEventListener("DOMContentLoaded", loadLogs);
+
+async function loadLogs() {
+
+    var logList = document.getElementById("logList");
+    var logCount = document.getElementById("logCount");
+
+    if (!logList) {
+        return;
+    }
+
+    if (
+        !GOOGLE_SCRIPT_URL ||
+        GOOGLE_SCRIPT_URL.indexOf("YOUR_GOOGLE") !== -1
+    ) {
+        logList.innerHTML =
+            '<div class="empty-log">' +
+                'Chưa cấu hình Google Apps Script.' +
+            '</div>';
+        return;
+    }
+
+    logList.innerHTML =
+        '<div class="empty-log">' +
+            'Đang tải lịch sử...' +
+        '</div>';
+
+    try {
+
+        var response = await fetch(
+            GOOGLE_SCRIPT_URL + "?action=list"
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "HTTP Error: " + response.status
+            );
+        }
+
+        var result = await response.json();
+
+        if (!result.success) {
+            throw new Error(
+                result.message || "Không lấy được log"
+            );
+        }
+
+        var logs = Array.isArray(result.data)
+            ? result.data
+            : [];
+
+        if (logCount) {
+            logCount.textContent =
+                logs.length + " bản ghi";
+        }
+
+        if (logs.length === 0) {
+
+            logList.innerHTML =
+                '<div class="empty-log">' +
+                    'Chưa có dữ liệu quét.' +
+                '</div>';
+
+            return;
+        }
+
+        var latestLogs = logs.slice(0, 50);
+
+        var html = "";
+
+        latestLogs.forEach(function (log, index) {
+
+            html +=
+                '<div class="log-item">' +
+
+                    '<div class="log-content">' +
+
+                        '<div class="log-qr">' +
+                            escapeLogHtml(log.qr) +
+                        '</div>' +
+
+                        '<div class="log-time">' +
+                            escapeLogHtml(log.timestamp) +
+                        '</div>' +
+
+                    '</div>' +
+
+                    '<div class="log-number">' +
+                        (index + 1) +
+                    '</div>' +
+
+                '</div>';
+
+        });
+
+        logList.innerHTML = html;
+
+    } catch (error) {
+
+        console.error(
+            "Load log error:",
+            error
+        );
+
+        if (logCount) {
+            logCount.textContent =
+                "Lỗi tải dữ liệu";
+        }
+
+        logList.innerHTML =
+            '<div class="empty-log">' +
+                'Không thể tải lịch sử quét.' +
+                '<br>' +
+                'Vui lòng thử lại.' +
+            '</div>';
+    }
+}
+
+
+/* ============================================
+   ESCAPE HTML
+============================================ */
+
+function escapeLogHtml(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ============================================
+   LOAD LOG WHEN PAGE LOAD
+============================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        loadLogs();
+    }
+);
+
+
+/* ============================================
+   REFRESH LOG
+============================================ */
+
+var refreshLogBtn =
+    document.getElementById("refreshLogBtn");
+
+if (refreshLogBtn) {
+
+    refreshLogBtn.addEventListener(
+        "click",
+        function () {
+            loadLogs();
+        }
+    );
+}
