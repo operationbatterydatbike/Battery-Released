@@ -249,7 +249,7 @@ h1 {
     text-align: center;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 400px) {
     .app {
         padding-top: 32px;
     }
