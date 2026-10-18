@@ -155,3 +155,28 @@ window.addEventListener("pagehide", () => {
         scanner.stop().catch(() => {});
     }
 });
+
+async function loadLogs() {
+    try {
+        const response = await fetch(
+            GOOGLE_SCRIPT_URL + "?action=list"
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            console.error(result.message);
+            return;
+        }
+
+        console.log("QR Logs:", result.data);
+
+        // Có thể render result.data ra giao diện
+        // result.data[0] = bản ghi mới nhất
+
+    } catch (error) {
+        console.error("Không thể tải log:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", loadLogs);
